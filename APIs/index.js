@@ -9,12 +9,23 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 // time.
 const TOKEN_PATH = 'token.json';
 
-// Load client secrets from a local file.
-fs.readFile('credentials.json', (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Calendar API.
-  authorize(JSON.parse(content), listEvents);
-});
+function getCalEvents(callback) {
+  // Load client secrets from a local file.
+  fs.readFile('../config/keys/credentials.json', (err, content) => {
+    if (err) return console.log('Error loading client secret file:', err);
+    // Authorize a client with credentials, then call the Google Calendar API.
+    authorize(JSON.parse(content), listEvents, callback);
+  });
+
+}
+
+function displayEvents(events) {
+  console.log("--------- Event object ---------", events);
+}
+
+getCalEvents(displayEvents);
+
+
 
 /**
  * Create an OAuth2 client with the given credentials, and then execute the
@@ -22,17 +33,18 @@ fs.readFile('credentials.json', (err, content) => {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
-function authorize(credentials, callback) {
+function authorize(credentials, clientFunction, callback) {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
   const oAuth2Client = new google.auth.OAuth2(
     client_id, client_secret, redirect_uris[0]);
 
   // Check if we have previously stored a token.
   fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getAccessToken(oAuth2Client, callback);
+    if (err) return getAccessToken(oAuth2Client, clientFunction);
     oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
+    return clientFunction(oAuth2Client, callback);
   });
+
 }
 
 /**
@@ -70,7 +82,7 @@ function getAccessToken(oAuth2Client, callback) {
  * Lists the next 10 events on the user's primary calendar.
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
-function listEvents(auth) {
+function listEvents(auth, callback) {
   const calendar = google.calendar({ version: 'v3', auth });
   calendar.events.list({
     calendarId: 'primary',
@@ -87,6 +99,7 @@ function listEvents(auth) {
         const start = event.start.dateTime || event.start.date;
         console.log(`${start} - ${event.summary}`);
       });
+      callback(events);
     } else {
       console.log('No upcoming events found.');
     }
