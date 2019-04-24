@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const mongoURI = require("./config/keys").mongoURI;
 
-
 mongoose.connect(mongoURI, { useNewUrlParser: true })
   .then(() => { console.log("mongoDB connected") })
   .catch(err => console.log(err));
