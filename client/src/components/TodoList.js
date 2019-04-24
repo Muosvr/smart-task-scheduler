@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from "axios";
 
 // TODO: reinstall semantic ui react and css
 
@@ -38,9 +39,16 @@ export default class TodoList extends Component {
       todos: temp
     })
   }
+
+  saveTodos = () => {
+    axios.post("/todos", this.state.todos)
+      .then(res => console.log("success", res))
+      .catch(err => console.log(err))
+  }
   render() {
     return (
       <div style={{ "width": "90%", "textAlign": "center", "margin": "auto" }}>
+        <button onClick={this.saveTodos}>Save</button>
         <button onClick={this.createTodo}>New Todo</button>
         <button> Log In</button>
         <ul style={{ "textAlign": "center", "padding": "0" }}>
