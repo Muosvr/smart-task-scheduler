@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readline = require('readline');
 const { google } = require('googleapis');
+const path = require('path');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
@@ -9,9 +10,9 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
 // time.
 const TOKEN_PATH = 'token.json';
 
-function getCalEvents(callback) {
+function googleLogin(callback) {
   // Load client secrets from a local file.
-  fs.readFile('../config/keys/credentials.json', (err, content) => {
+  fs.readFile(path.resolve(__dirname, '../config/keys/credentials.json'), (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     // Authorize a client with credentials, then call the Google Calendar API.
     authorize(JSON.parse(content), listEvents, callback);
@@ -19,11 +20,7 @@ function getCalEvents(callback) {
 
 }
 
-function displayEvents(events) {
-  console.log("--------- Event object ---------", events);
-}
-
-getCalEvents(displayEvents);
+module.exports = googleLogin;
 
 
 
@@ -31,7 +28,7 @@ getCalEvents(displayEvents);
  * Create an OAuth2 client with the given credentials, and then execute the
  * given callback function.
  * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
+ * @param {function} clientFunction The clientFunction to call with the authorized client.
  */
 function authorize(credentials, clientFunction, callback) {
   const { client_secret, client_id, redirect_uris } = credentials.installed;
@@ -73,6 +70,7 @@ function getAccessToken(oAuth2Client, callback) {
         if (err) return console.error(err);
         console.log('Token stored to', TOKEN_PATH);
       });
+      console.log("callback", callback)
       callback(oAuth2Client);
     });
   });
@@ -94,10 +92,10 @@ function listEvents(auth, callback) {
     if (err) return console.log('The API returned an error: ' + err);
     const events = res.data.items;
     if (events.length) {
-      console.log('Upcoming 10 events:');
+      // console.log('Upcoming 10 events:');
       events.map((event, i) => {
         const start = event.start.dateTime || event.start.date;
-        console.log(`${start} - ${event.summary}`);
+        // console.log(`${start} - ${event.summary}`);
       });
       callback(events);
     } else {
