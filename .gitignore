@@ -1,4 +1,6 @@
 config/keys/credentials.json
 config/keys/devKeys.js
+config/keys/token.json
+config/keys/token.old
 node_modules
 APIs/token.json
