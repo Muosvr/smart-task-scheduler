@@ -4,6 +4,7 @@ const app = express();
 const todos = require("./routes/todos");
 const events = require("./routes/events");
 const oauth = require("./routes/oauth");
+const updateTodos = require("./routes/updateTodos");
 
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
@@ -22,6 +23,8 @@ app.use("/oauth", oauth);
 
 app.use("/todos", todos);
 app.use("/calevents", events);
+
+app.use("/updateTodos", updateTodos);
 
 const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`App listening on port ${port}`));
