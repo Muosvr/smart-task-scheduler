@@ -1,6 +1,6 @@
 /**
- * Summary: This function compares two arrays.
- * Description: This function calculates for each element in subjects, the indexes of elements in ruler of which the sum is in range of the subject element cumulatively
+ * Summary: This function measures one array against another.
+ * Description: This function calculates for each element in subjects, the indexes of elements in ruler of which the sum is in range of the subject element cumulatively.
  * @param {[float]} subjects An array of numbers representing the subjects to be measured.
  * @param {[float]} ruler An array of numbers representing the length of each unit in a ruler.
  * @return {[int]} Returns an array that corresponds to each element in subjects.
