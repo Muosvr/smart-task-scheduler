@@ -13,7 +13,7 @@ function measureArray(subjects, ruler) {
   var rul_cum = ruler[0];
   var result = []
   function addResult(s_i, r_i, result) {
-    if (result.length == s_i) {
+    if (result.length === s_i) {
       result.push([r_i]);
     } else if (result.length - 1 === s_i) {
       result[s_i].push(r_i);
