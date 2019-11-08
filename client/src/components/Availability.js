@@ -15,7 +15,7 @@ class Availability extends (Component) {
     for (let i = 0; i < this.NUM_OF_DAYS; i++) {
       let theNextDate = new Date()
       theNextDate.setDate(today.getDate() + i)
-      dates.push({ date: theNextDate, availability: 0 })
+      dates.push({ date: theNextDate.toLocaleDateString(), availability: 0 })
     }
     return dates;
   }
@@ -39,7 +39,7 @@ class Availability extends (Component) {
           const id = "a" + i;
           return (
             <div key={i} style={{ display: "inlineBlock", margin: "5px" }}>
-              <label htmlFor={id}>{availability.date.toLocaleDateString()}</label>
+              <label htmlFor={id}>{availability.date}</label>
               <br />
               <input
                 style={{ marginLeft: "5px", width: "60px" }}

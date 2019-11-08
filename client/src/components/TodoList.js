@@ -62,8 +62,7 @@ export default class TodoList extends Component {
             >Move Up</button>
             <span>{todo.assignedDates ?
               todo.assignedDates.map(date => {
-                let d = new Date(date);
-                return d.toLocaleDateString();
+                return date;
               }).join(", ") : ""
             }</span>
           </li>
