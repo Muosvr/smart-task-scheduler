@@ -159,7 +159,7 @@ export default class TodoList extends Component {
         <button onClick={this.getTodos}> Log In</button>
         <button onClick={this.calculate}>Calculate</button>
         <Availability updateAvailability={this.updateAvailability} />
-        <ul style={{ "textAlign": "center", "padding": "0" }}>
+        <ul style={{ "textAlign": "left", "padding": "0" }}>
           {this.displayTodo()}
         </ul>
       </div>

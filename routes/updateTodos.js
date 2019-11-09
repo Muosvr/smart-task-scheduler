@@ -31,12 +31,12 @@ router.post("/", (req, res) => {
   // console.log("updateTodos server", req.body)
   const todos = req.body.todos
     .map(todo => {
-      return parseInt(todo.duration)
+      return parseFloat(todo.duration)
     })
   const availabilities =
     req.body.availability
       .map(element => {
-        return parseInt(element.availability)
+        return parseFloat(element.availability)
       })
   console.log("todos", todos);
   console.log('availabilities', availabilities)
