@@ -33,30 +33,44 @@ router.post("/", (req, res) => {
     .map(todo => {
       return parseInt(todo.duration)
     })
-  console.log('todos', todos)
   const availabilities =
     req.body.availability
       .map(element => {
         return parseInt(element.availability)
       })
+  console.log("todos", todos);
   console.log('availabilities', availabilities)
   const result = measureArray(todos, availabilities);
+  console.log("result", result);
   const resultDates = result.map(todoItem => {
     return todoItem
       .filter(dateIndex => {
-        return req.body.availability[dateIndex].date !== 0;
+        return availabilities[dateIndex] !== 0;
       })
       .map(dateIndex => {
         return req.body.availability[dateIndex].date
       })
   })
 
-  const assignedTodos = resultDates.map((todoDates, i) => {
-    return {
-      ...req.body.todos[i],
-      assignedDates: todoDates
-    }
-  })
+  const assignedTodos = req.body.todos
+    .map((todo, i) => {
+      let assignedDates = []
+      if (i < resultDates.length) {
+        assignedDates = resultDates[i]
+      }
+      return {
+        ...todo,
+        assignedDates
+      }
+    })
+
+
+  // const assignedTodos = resultDates.map((todoDates, i) => {
+  //   return {
+  //     ...req.body.todos[i],
+  //     assignedDates: todoDates
+  //   }
+  // })
   const payload = {
     ...req.body,
     todos: assignedTodos
