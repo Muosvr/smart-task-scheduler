@@ -35,7 +35,9 @@ fs.readFile(path.resolve(__dirname, '../config/keys/credentials.json'), (err, co
   console.log(url);
 
   router.get("/login", (req, res) => {
-    res.redirect(url);
+    // console.log('redirecting');
+    // res.redirect(url);
+    res.send({ url });
 
   })
 

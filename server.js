@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const todos = require("./routes/todos");
@@ -14,6 +15,7 @@ mongoose.connect(mongoURI, { useNewUrlParser: true })
   .then(() => { console.log("mongoDB connected") })
   .catch(err => console.log(err));
 
+// app.use(cors);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
